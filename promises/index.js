@@ -122,18 +122,27 @@ const getReview = (movieId) => {
     });
 };
 
-getMovie(3)
-    .then ( (movie) => {
-       return getReview(movie.id);
-    })
-    .then ( (review) => {
-        return getUser(review.reviewer);
-    })
-    .then ( (user) => {
-        console.log(user);
-    })
-    .catch ( (err) => {
-        console.log(err);
-    })
+// getMovie(3)
+//     .then ( (movie) => {
+//        return getReview(movie.id);
+//     })
+//     .then ( (review) => {
+//         return getUser(review.reviewer);
+//     })
+//     .then ( (user) => {
+//         console.log(user);
+//     })
+//     .catch ( (err) => {
+//         console.log(err);
+//     })
 
+//OR 
+(
+    async() => {
+        const movie = await getMovie(2);
+        const review = await getReview(movie.id);
+        const user = await getUser(review.reviewer);
+        console.log(user);
+    }
+)();
 
