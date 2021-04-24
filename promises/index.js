@@ -139,10 +139,15 @@ const getReview = (movieId) => {
 //OR 
 (
     async() => {
-        const movie = await getMovie(2);
-        const review = await getReview(movie.id);
-        const user = await getUser(review.reviewer);
-        console.log(user);
+        try {
+            const movie = await getMovie(2);
+            const review = await getReview(movie.id);
+            const user = await getUser(review.reviewer);
+            console.log(user);
+        } catch(err) {
+            console.log(err);
+        }
+        
     }
 )();
 
