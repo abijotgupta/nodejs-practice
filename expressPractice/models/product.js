@@ -7,7 +7,6 @@ const local_path = path.join(
     'products.json'
 );
 const getProductsFromFile = (callback) => {
-    
     fs.readFile(local_path, (err, fileContent) => {
         if(err) {
             callback([]);
@@ -38,5 +37,12 @@ module.exports = class Product {
 
     static fetchAll(callback) {
         getProductsFromFile(callback);
+    }
+
+    static findById(id, callback) {
+        getProductsFromFile(products => {
+            const product = products.find(prod => prod.id === id);
+            callback(product);
+        });
     }
 };
