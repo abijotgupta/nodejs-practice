@@ -1,35 +1,54 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-const app = express();
+const mongoose = require('mongoose');
 
-const { get404 } = require('./controllers/error');
-const mongoConnect = require('./util/database').mongoConnect;
+const errorController = require('./controllers/error');
 const User = require('./models/user');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
+const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//This middleware executed for each request to the application but not for npm start
 app.use((req, res, next) => {
-    User.findUserById("60e6df75039f7c1eb00c5124")
+  User.findById("60e6df75039f7c1eb00c5124")
     .then(user => {
-        req.user = new User(user.name, user.email, user.cart, user._id);
-        next();
+      req.user = user;
+      next();
     })
     .catch(err => console.log(err));
 });
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
-app.use(get404);
+app.use(errorController.get404);
 
-mongoConnect(() => {
-
+mongoose
+  .connect(
+    'mongodb+srv://Ram:uw3U2Wql4UEskPfo@cluster0.rjgiw.mongodb.net/shop?retryWrites=true&w=majority'
+  )
+  .then(result => {
+    User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: 'Abijot',
+          email: 'abi@test.com',
+          cart: {
+            items: []
+          }
+        });
+        user.save();
+      }
+    });
     app.listen(5700);
-})
+  })
+  .catch(err => console.log(err));
+  
