@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById("60ec6f09a31bfbc9f9ebc0c5")
+  User.findById("60ec6f09a31bfb234359ebc0c5")
     .then(user => {
       req.user = user;
       next();
@@ -33,7 +33,7 @@ app.use(errorController.get404);
 
 mongoose
   .connect(
-    'mongodb+srv://Ram:uw3U2Wql4UEskPfo@cluster0.rjgiw.mongodb.net/shop?retryWrites=true&w=majority'
+    'xxxxxxxxxxxxxxxxxxxxx'
   )
   .then(result => {
     User.findOne().then(user => {
