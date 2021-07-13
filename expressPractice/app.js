@@ -11,7 +11,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-const MONGODB_URI = 'mongodb+srv://Ram:uw3U2Wql4UEskPfo@cluster0.rjgiw.mongodb.net/shop?retryWrites=true&w=majority';
+const MONGODB_URI = 'xxxxxxxxxxxxxxxx';
 
 const app = express();
 const store = new MongoDBStore({
