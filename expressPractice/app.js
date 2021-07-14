@@ -11,7 +11,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-const MONGODB_URI = 'xxxxxxxxxxxxxxxx';
+const MONGODB_URI = 'mongodb+srv://Ram:uw3U2Wql4UEskPfo@cluster0.rjgiw.mongodb.net/shop?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
@@ -52,18 +52,6 @@ app.use(errorController.get404);
 mongoose
   .connect( MONGODB_URI )
   .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Abijot',
-          email: 'abi@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    });
     app.listen(5700);
   })
   .catch(err => console.log(err));
