@@ -2,15 +2,16 @@ const crypto = require('crypto');
 
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 
-const transporter = nodemailer.createTransport(sendGridTransport({
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
   auth: {
-    api_key: 'YOUR_API_KEY',
+    user: 'abijot17*******@gmail.com',
+    pass: '**********',
   }
-}));
+});
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
   if(message.length > 0) {
@@ -94,7 +95,7 @@ exports.postSignup = (req, res, next) => {
           res.redirect('/login');
           return transporter.sendMail({
             to: email,
-            from: 'shop@nodeJs.com',
+            from: 'abijot17*******@gmail.com',
             subject: 'SignUp Completed',
             html: '<h1>You have been successfully signed up!</h1>' 
           });
@@ -150,7 +151,7 @@ exports.postReset = (req, res, next) => {
       res.redirect('/');
       transporter.sendMail({
         to: email,
-        from: 'shop@nodeJs.com',
+        from: 'abijot170*******@gmail.com',
         subject: 'Reset Password',
         html: `
           <p>You requested for Password Reset.</p>
