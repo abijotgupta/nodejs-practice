@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
     pass: '**********',
   }
 });
+
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
   if(message.length > 0) {
@@ -108,7 +109,11 @@ exports.postLogin = (req, res, next) => {
         res.redirect('/login');
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postSignup = (req, res, next) => {
@@ -116,6 +121,7 @@ exports.postSignup = (req, res, next) => {
   const password = req.body.password;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log(errors.array());
     return res.status(422).render('auth/signup', {
       path: '/signup',
       pageTitle: 'Signup',
@@ -146,8 +152,12 @@ exports.postSignup = (req, res, next) => {
         html: '<h1>You have been successfully signed up!</h1>' 
       });
     })
-    .catch(err => console.log(err)); 
-};
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+  };
 
 exports.postLogout = (req, res, next) => {
   req.session.destroy(err => {
@@ -201,7 +211,11 @@ exports.postReset = (req, res, next) => {
           <p>Click this <a href="http://localhost:5700/reset/${token}">link<a> to change Password.</p>`
       });
     })
-    .catch(err => console.log('Email error', err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getNewPassword = (req, res, next) => {
@@ -225,7 +239,11 @@ exports.getNewPassword = (req, res, next) => {
       passwordToken: token,
     })
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
 };
 
 exports.postNewPassword = (req, res, next) => {
@@ -252,5 +270,9 @@ exports.postNewPassword = (req, res, next) => {
     console.log(result);
     res.redirect('/login');
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
 };
