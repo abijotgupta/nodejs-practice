@@ -30,6 +30,7 @@
     "nodemon": "^2.0.7",
     "pdfkit": "^0.12.3",
     "pug": "^3.0.2",
-    "sequelize": "^6.6.4"
+    "sequelize": "^6.6.4",
+    "stripe": "^8.170.0"
   }
 }
